@@ -82,7 +82,7 @@ I. Refactor movie object - a one-to-many relationship
 1. To transform the object directly to have the suitable property, so you don't have to repeat the effort multiple times for similar purposes:
 
 ```
-# app/models/movie.rb
+# /models/movie.rb
 
 class Movie < ApplicationRecord
   def director
@@ -128,7 +128,7 @@ II. Refactor director object - a many-to-many relationship
 1. Here is the original code that we wish to refactor:
 
 ```
-# app/views/director_templates/show.html.erb
+#views/director_templates/show.html.erb
 
 <% the_id = @the_director.id %>
 
@@ -142,7 +142,7 @@ II. Refactor director object - a many-to-many relationship
 2. We will simplify the above code by creating the following class:
 
 ```
-# app/models/director.rb
+#models/director.rb
 
 class Director < ApplicationRecord
   def filmography
@@ -188,3 +188,109 @@ You can further shorten the above code by method chaining as follows:
 
   <% films.each do |a_movie| %>
 ```
+
+III. Refactor Actors 
+
+1. Essentially, when you do refactoring such as this, you are moving the code on the front-end to the back-end into within a class.
+
+2. Let's create the class accordingly.
+
+```
+#models/actor.rb
+
+class Actor < ApplicationRecord
+  def characters
+    a_id = self.id
+
+    matching_characters = Character.where({ :actor_id => a_id })
+
+    return matching_characters
+  end
+end
+```
+
+3. Here is the modifed html page:
+
+Before refactoring:
+```
+#views/actor_templates/show.html.erb
+
+<% a_id = @the_actor.id %>
+
+  <% matching_characters = Character.where({ :actor_id => a_id }) %>
+
+  <% matching_characters.each do |a_character| %>
+```
+
+After refactoring:
+```
+#views/actor_templates/show.html.erb
+
+<% @the_actor.characters.each do |a_character| %>
+```
+
+4. Let's further refactor and add a movie method to the character class and NOT to the actor class. I previously made a mistake of adding the movie method to the actor class and it did not work!
+
+Here is the modified class:
+```
+#models/character.rb
+
+class Character < ApplicationRecord
+  def movie
+    m_id = self.movie_id 
+
+    matching_movies = Movie.where({ :id => m_id })
+
+    the_movie = matching_movies.at(0)
+
+    return the_movie
+  end
+end
+```
+
+Here is the final html script
+
+```
+#views/actor_templates/show.html.erb
+
+<% @the_actor.characters.each do |a_character| %>
+  
+    <!--<% m_id = a_character.movie_id %>
+
+    <% matching_movies = Movie.where({ :id => m_id }) %>
+
+    <% the_movie = matching_movies.at(0) %>-->
+
+    <tr>
+      <td>
+        <%= a_character.movie.title %>
+      </td>
+
+      <td>
+        <%= a_character.movie.year %>
+      </td>
+
+      <td>
+        <!--<% d_id = a_character.movie.director_id %>
+        
+        <% matching_directors = Director.where({ :id => d_id }) %>
+        
+        <% the_director = matching_directors.at(0) %>-->
+
+        <%= a_character.movie.director.name %>
+      </td>
+
+      <td>
+        <%= a_character.name %>
+      </td>
+
+      <td>
+        <a href="/movies/<%= the_movie.id %>">
+          Show details
+        </a>
+      </td>
+    </tr>
+  <% end %>
+```
+
+***

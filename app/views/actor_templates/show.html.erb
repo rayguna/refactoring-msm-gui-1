@@ -126,34 +126,31 @@
     </th>
   </tr>
 
-  <% a_id = @the_actor.id %>
-
-  <% matching_characters = Character.where({ :actor_id => a_id }) %>
-
-  <% matching_characters.each do |a_character| %>
-    <% m_id = a_character.movie_id %>
+  <% @the_actor.characters.each do |a_character| %>
+  
+    <!--<% m_id = a_character.movie_id %>
 
     <% matching_movies = Movie.where({ :id => m_id }) %>
 
-    <% the_movie = matching_movies.at(0) %>
+    <% the_movie = matching_movies.at(0) %>-->
 
     <tr>
       <td>
-        <%= the_movie.title %>
+        <%= a_character.movie.title %>
       </td>
 
       <td>
-        <%= the_movie.year %>
+        <%= a_character.movie.year %>
       </td>
 
       <td>
-        <% d_id = the_movie.director_id %>
+        <!--<% d_id = a_character.movie.director_id %>
         
         <% matching_directors = Director.where({ :id => d_id }) %>
         
-        <% the_director = matching_directors.at(0) %>
+        <% the_director = matching_directors.at(0) %>-->
 
-        <%= the_director.name %>
+        <%= a_character.movie.director.name %>
       </td>
 
       <td>
