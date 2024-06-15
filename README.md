@@ -77,7 +77,7 @@ class Movie < ApplicationRecord
 end
 ```
 
-I. Refactor a one-to-many relationship
+I. Refactor movie object - a one-to-many relationship
 
 1. To transform the object directly to have the suitable property, so you don't have to repeat the effort multiple times for similar purposes:
 
@@ -123,7 +123,7 @@ end
 
 The above refactoring applies for a one-to-many relationship.
 
-II. Refactor a manyto-many relationship
+II. Refactor director object - a many-to-many relationship
 
 1. Here is the original code that we wish to refactor:
 
