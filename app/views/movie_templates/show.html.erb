@@ -109,17 +109,18 @@
   </dd>
 
   <dt>
-    Director
+    Director 
   </dt>
   <dd>
-    <% the_id = @the_movie.director_id %>
+    <!--<% the_id = @the_movie.director_id %>
 
     <% matching_directors = Director.where({ :id => the_id }) %>
         
-    <% the_director = matching_directors.at(0) %>
+    <% the_director = matching_directors.at(0) %>-->
 
     <% if the_director != nil %>
-      <%= the_director.name %>
+      <!--<%= the_director.name %>-->
+      <%=@the_movie.director.name%>
     <% else %>
       Uh oh! We weren't able to find a director for this movie.
     <% end %>
