@@ -10,7 +10,7 @@ Grading: https://grades.firstdraft.com/resources/3a0972b1-4374-47fa-83b1-1319150
 
 <hr>
 
-Start out by populating the table data with the command `rake sample_Data` in the terminal; otherwise, you will see no data being displayed.
+Start out by populating the table data with the command `rake sample_data` in the terminal; otherwise, you will see no data being displayed.
 
 **Goal:** To simplify the query commands that tend to be verbose via queries encapsulation, e.g.:
 
